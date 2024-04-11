@@ -1,0 +1,10 @@
+{
+    "repository_root": "path/to/repo/RedCap2SQLite",
+    "db_creation": true,
+    "db_path": "path/to/databaselocation/classicDB.db",
+    "db_schema": "path/to/databaseschema/classicDB_schema.sql",
+    "db_fill": true,
+    "mapping_path":"path/to/mappingTables/",
+    "redcap_api_address": "https://redcap.example.com/api/",
+    "redcap_project": "classicDB"
+}
