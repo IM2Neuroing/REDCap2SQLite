@@ -1,0 +1,13 @@
+# Ignore Python bytecode files and directories
+Extract/__pycache__/*.*.pyc
+Transform/__pycache__/*.pyc
+Load/__pycache__/*.pyc
+
+# Ignore virtual environment directories
+.venv/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore mapping files
+/mapping/
