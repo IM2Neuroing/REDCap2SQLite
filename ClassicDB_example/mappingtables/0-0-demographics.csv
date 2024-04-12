@@ -1,0 +1,5 @@
+Table,Attribute,NotNull,field_name
+demographics,race,,RADI(race)
+demographics,ethnicity,,RADI(ethnicity)
+demographics,gender,,RADI(gender)
+demographics,dob,NOT NULL,dob
