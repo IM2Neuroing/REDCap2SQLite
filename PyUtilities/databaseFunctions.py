@@ -21,10 +21,12 @@ def create_database(database_name, database_sql ,wipe=False):
     if os.path.exists(database_name):
         logging.warning("Database already exists: %s", database_name)
         if wipe:
-            logging.warning("Wiping database")
             wipe_sqlite_database(database_name)
+            logging.debug("Database wiped: %s", database_name)
         # If the database already exists, return
-        return None
+        else:
+            logging.debug("Database have not been wiped: %s", database_name)
+            return None
         
     try:
         # Create a connection to the database

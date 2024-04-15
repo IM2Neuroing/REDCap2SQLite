@@ -1,6 +1,6 @@
-from Extract.extract import extract_data
-from Transform.transform import transform_data
-from Load.load import load_data
+from ETL.Extract.extract import extract_data
+from ETL.Transform.transform import transform_data
+from ETL.Load.load import load_data
 
 import logging
 
