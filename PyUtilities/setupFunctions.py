@@ -35,7 +35,7 @@ def read_config_file(file_path):
     try:
         with open(file_path, 'r') as file:
             config_data = json.load(file)
-        logging.info("Configuration file loaded")
+        logging.debug("Configuration file loaded")
     except FileNotFoundError:
         logging.error("Configuration file not found")
         raise
