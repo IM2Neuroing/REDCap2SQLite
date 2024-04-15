@@ -11,3 +11,4 @@
 # Ignore files
 config.json
 Workflow.log
+ClassicDB_example/classicDB.db
