@@ -2,12 +2,8 @@ from PyUtilities.setupFunctions import read_config_file
 from PyUtilities.databaseFunctions import create_database
 
 import logging
-import sqlite3
-import logging
-import os
 
 CONFIG_FILE_PATH = 'config.json'
-
 
 def load_data(data):
   """
