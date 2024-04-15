@@ -1,10 +1,10 @@
 {
-    "repository_root": "path/to/repo/RedCap2SQLite",
+    "repository_root": "path/to/repo/RedCap2SQLite", 
     "db_creation": true,
-    "db_path": "path/to/databaselocation/classicDB.db",
-    "db_schema": "path/to/databaseschema/classicDB_schema.sql",
+    "db_path": "ClassicDB_example/classicDB.db",
+    "db_schema": "ClassicDB_example/sqlite_schema.sql",
     "db_fill": true,
-    "mapping_path":"path/to/mappingTables/",
-    "redcap_api_address": "https://redcap.example.com/api/",
-    "redcap_project": "classicDB"
+    "mapping_path":"ClassicDB_example/mappingtables/",
+    "redcap_api_address": "https://redcap.lifesciences.fhnw.ch/api/",
+    "redcap_project": "classic_database"
 }
