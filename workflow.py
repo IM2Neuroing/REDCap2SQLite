@@ -11,7 +11,7 @@ def main_workflow():
   # Configure the logger
   logging.basicConfig(
       filename= logfilename,  # Specify the log file
-      level=logging.DEBUG,   # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+      level=logging.INFO,   # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
        # format the log messages keeping the timestamp, log level, filename, and the message always keeping the same characters count
       format='%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(message)-50s'
   )
@@ -22,11 +22,11 @@ def main_workflow():
   logging.info("Data extracted successfully.")
   
   # Transform data
-  transformed_data = transform_data(extracted_data)
+  transform_data(extracted_data)
   logging.info("Data transformed successfully.")
 
   # Load data
-  load_data(transformed_data)
+  load_data()
   logging.info("Data loaded successfully.")
 
 # Main program

@@ -4,4 +4,4 @@ patients,sign_date,NOT NULL,date_enrolled
 patients,first_name,NOT NULL,first_name
 patients,last_name,NOT NULL,last_name
 patients,email,,email
-patients,demographics_id,NOT NULL,"SRCH(id,demographics,race,RADI(race),ethnicity,RADI(ethnicity), gender,RADI(gender),dob,dob)"
+patients,demographics_id,NOT NULL,"SRCH(id,demographics,race,race,ethnicity,ethnicity, gender,gender,dob,dob)"
