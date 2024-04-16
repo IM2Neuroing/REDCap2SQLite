@@ -5,7 +5,7 @@ import logging
 
 CONFIG_FILE_PATH = 'config.json'
 
-def load_data(data):
+def load_data():
   """
   Function to load data into the destination database.
   """
@@ -18,7 +18,7 @@ def load_data(data):
   ## DATA LOADING
 
   # Implement your logic to write data to the destination (e.g., CSV file)
-  logging.info(f"Writing data: {data}")
+  logging.info(f"Writing data: {None}")
 
 # Database setup Function
 def database_setup(config):
