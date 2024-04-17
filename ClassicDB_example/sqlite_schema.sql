@@ -20,7 +20,7 @@ CREATE TABLE `patients`(
 CREATE TABLE `hospitalizations`(
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `patient_id` INTEGER NOT NULL,
-    `cause` TEXT,
+    `cause` TEXT NOT NULL,
     `data_admission` DATE,
     `date_discharge` DATE,
     FOREIGN KEY(`patient_id`) REFERENCES `patients`(`id`)

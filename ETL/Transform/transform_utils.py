@@ -97,7 +97,7 @@ def getRedCapValue(value,singleRepeatdf,patient_df,plogger):
     elif value[:4] == "MULT":
         return get_value_from_df(value[5:-1],singleRepeatdf,plogger)
     else:
-        return get_value_from_df(value,singleRepeatdf)
+        return get_value_from_df(value,singleRepeatdf,plogger)
 
 def replace_SETvalue_with_value(value,plogger):
     '''
@@ -216,7 +216,7 @@ def replace_SRCHvalue_with_value(value,df,patient_df,plogger):
             redcapvalue = "NULL"
         redcapvalues.append(redcapvalue)
         plogger.debug("UTILS: Redcap Value: %s\tRedcap Attribute: %s", redcapvalue,redcapattribute)
-    
+
     # create search statement
     sql_statement = generate_search_statement(searched_attribute,table,attributes,redcapvalues)
     plogger.debug("UTILS: SQL Statement: %s", sql_statement)
@@ -288,7 +288,7 @@ def replace_IFvalue_with_value(value,df,patient_df,plogger):
     plogger.debug("Final IF Value: %s", value)
     return value
 
-def split_string(input_string,plogger):
+def split_string(input_string):
     '''
     Split a string at commas, but ignore commas inside parentheses
     Format: "SRCH(w, SET(x), y, z)" -> ["SRCH(w", "SET(x)", "y", "z"]
@@ -320,7 +320,6 @@ def split_string(input_string,plogger):
     if temp_string:
         sub_strings.append(temp_string.strip())
 
-    plogger.debug("UTILS: Split String: %s", sub_strings)
     return sub_strings
 
 def drop_rows_with_NULL(df, column_name):

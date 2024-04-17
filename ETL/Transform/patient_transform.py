@@ -34,9 +34,10 @@ def transform_patient(patient_df):
         f.write(f'-- Patient: {patient_id}\n')
         
     ## SETUP Patient LOGGING
-    # Configure patient logger
+    # Configure patient logger only for file logging not for console logging
     plogger = logging.getLogger('PatientLogger')
     plogger.setLevel(logging.DEBUG)
+    plogger.propagate = False  # Prevent propagation to the root logger
     file_patient = logging.FileHandler(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.log')
     formatter = logging.Formatter('%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(funcName)-25s %(message)-50s')
     file_patient.setFormatter(formatter)
@@ -223,9 +224,7 @@ def build_SQL_for_single_entity(single_entity_repeat,patient_df,mapping,plogger)
     # check if all rows with NOTNULL have a value in column value
     mask = (entity["NotNull"] == "NOT NULL") & ((entity["value"] == 'NULL')|entity["value"].isnull())
     if mask.any():
-        plogger.warning("SINGLE ENTITY: NOTNULL check failed in entity: " + entity_name
-        + " \nhas no value provided from redcap: \n" + str(entity[mask]["Attribute"].astype(str))
-        + " \n for subject: " + str(patient_df[patient_df["field_name"] == "patient_id"]["value"].values[0]))
+        plogger.warning("SINGLE ENTITY: NOTNULL check failed in entity: " + entity_name)
         entity["value"] = None
 
 
