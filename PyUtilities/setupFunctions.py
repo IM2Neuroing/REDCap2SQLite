@@ -2,6 +2,7 @@ import os
 import datetime
 import json
 import logging
+import pandas as pd
 
 def add_timestamp_to_filename(filename):
     """
@@ -40,3 +41,22 @@ def read_config_file(file_path):
         logging.error("Configuration file not found")
         raise
     return config_data
+
+def csvs_reader(folder_path):
+    # Get a list of all CSV files in the folder
+    csv_files = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
+    # Sort the CSV files by filename
+    csv_files = sorted(csv_files)
+    logging.debug("Found mapping CSVs %s", str(csv_files))
+    
+    # Iterate through each CSV file
+    for csv_file in csv_files:
+        # Construct the full path to the CSV file
+        csv_path = os.path.join(folder_path, csv_file)
+        
+        # Read the CSV file into a Pandas DataFrame
+        df = pd.read_csv(csv_path)
+        logging.debug("Read in: %s", str(csv_path))
+        
+        # Yield the DataFrame to the caller
+        yield df
