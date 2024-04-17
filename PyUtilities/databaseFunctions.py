@@ -104,9 +104,15 @@ def generate_insert_statement(table_name, data):
     str: The insert statement.
     """
     columns = ', '.join(data.keys())
-    values = ', '.join(['"' + str(value) + '"' for value in data.values()])
-    
-    insert_statement = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
+    values = ', '.join(["'" + str(value) + "'" for value in data.values()])
+    # remove ' before and after numeric values to avoid SQL errors
+    values = re.sub(r"'(\d+)'", r'\1', values)
+    # remove ' before opening brackets to avoid SQL errors
+    values = re.sub(r"'(\()", r'\1', values)
+    # remove ' after closing brackets to avoid SQL errors
+    values = re.sub(r"(\))'", r'\1', values)
+
+    insert_statement = f"INSERT OR IGNORE INTO {table_name} ({columns}) VALUES ({values});"
     
     return insert_statement
 
@@ -123,10 +129,19 @@ def generate_search_statement(searched_attribute,table,attributes,redcapvalues):
     Returns:
     str: The search statement.
     """
-    sql_statement = f"SELECT {searched_attribute} FROM {table} WHERE {attributes[0]} = '{redcapvalues[0]}'"
+    # add ' before and after
+    redcapvalues = [f"'{value}'" for value in redcapvalues]
+    # remove ' before and after numeric values to avoid SQL errors
+    redcapvalues = [re.sub(r"'(\d+)'", r'\1', value) for value in redcapvalues]
+    # remove ' before opening brackets to avoid SQL errors
+    redcapvalues = [re.sub(r"'(\()", r'\1', value) for value in redcapvalues]
+    # remove ' after closing brackets to avoid SQL errors
+    redcapvalues = [re.sub(r"(\))'", r'\1', value) for value in redcapvalues]
+
+    sql_statement = f"(SELECT {searched_attribute} FROM {table} WHERE {attributes[0]} = {redcapvalues[0]}"
     for attribute, redcapvalue in zip(attributes[1:], redcapvalues[1:]):
-        sql_statement += f" AND {attribute} = '{redcapvalue}'"
-    sql_statement += ";"
+        sql_statement += f" AND {attribute} = {redcapvalue}"
+    sql_statement += ")"
     return fix_sql_query(sql_statement)
 
 def execute_sql_statement(sql_statement, db_file):

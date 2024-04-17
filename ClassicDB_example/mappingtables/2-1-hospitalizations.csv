@@ -1,5 +1,5 @@
 Table,Attribute,NotNull,field_name
 hospitalizations,patient_id,NOT NULL,study_id
-hospitalizations,cause,,cause_hosp_2
+hospitalizations,cause,NOT NULL,cause_hosp_2
 hospitalizations,data_admission,,admission_date_2
 hospitalizations,date_discharge,,discharge_date_2
