@@ -1,5 +1,5 @@
 Table,Attribute,NotNull,field_name
-visits,date,NOT NULL,date_visit_2
+visits,date,NOT NULL,date_visit_1
 visits,patient_id,NOT NULL,study_id
-visits,blood_level_id,NOT NULL,"SRCH(id, blood_levels, serum_albumin,alb_2, serum_prealbumin,prealb_2, creatinine,creat_2, normalized_protein_catobolic_rate,npcr_2, cholesterol,chol_2)"
-visits,compliance_id,NOT NULL,"SRCH(id, Compliance, missed_treatments,no_show_2, supplement_drinking,compliance_2)"
+visits,blood_level_id,NOT NULL,"SRCH(id, blood_levels, serum_albumin,alb_1, serum_prealbumin,prealb_1, creatinine,creat_1, normalized_protein_catobolic_rate,npcr_1, cholesterol,chol_1)"
+visits,compliance_id,NOT NULL,"SRCH(id, Compliance, missed_treatments,no_show_1, supplement_drinking,compliance_1)"

@@ -1,6 +1,6 @@
 Table,Attribute,NotNull,field_name
-blood_levels,serum_albumin,,alb_2
-blood_levels,serum_prealbumin,,prealb_2
-blood_levels,creatinine,,creat_2
-blood_levels,normalized_protein_catobolic_rate,,npcr_2
-blood_levels,cholesterol,,chol_2
+blood_levels,serum_albumin,,alb_1
+blood_levels,serum_prealbumin,,prealb_1
+blood_levels,creatinine,,creat_1
+blood_levels,normalized_protein_catobolic_rate,,npcr_1
+blood_levels,cholesterol,,chol_1
