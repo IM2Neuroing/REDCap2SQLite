@@ -13,27 +13,36 @@ CONFIG = read_config_file(CONFIG_FILE_PATH)
 def extract_data():
   """
   Function to extract data from the source.
-  """
+  """ 
+  # Check if extraction path is provided
+  if CONFIG['extraction_path'] is None:
+    workflow_logger.error("No extraction path was specified in the config file, no data will be extracted")
+    exit()
+
   ## DATA EXTRACTION REDCAP to CSV
   # Check if CSV file needs to be downloaded from REDCap
   if CONFIG["extract_redcap"] is True:
     # Run function to download data from REDCap
     workflow_logger.info("Extracting data from REDCap")
-    extract_redcap_data()
+    data = extract_redcap_data()
 
   ## DATA EXTRACTION from CSV
-  # Check if extraction path is provided
-  if CONFIG['extraction_path'] is None:
-    workflow_logger.error("No extraction path was specified in the config file")
-    exit()
-  # Logic to read data from CSV using pandas
-  data = pd.read_csv(CONFIG['extraction_path'])
-  # check if data is empty
+  else:
+    # Check if CSV file exists
+    try:
+      with open(CONFIG['extraction_path'], 'r') as file:
+        # Logic to read data from CSV using pandas
+        data = pd.read_csv(CONFIG['extraction_path'])
+    except FileNotFoundError:
+      workflow_logger.error(f"File not found at the specified extraction path: {CONFIG['extraction_path']}")
+      exit()
+  
+    # check if data is empty
   if data.empty:
-    workflow_logger.error("No data was extracted from the source")
+    workflow_logger.error("Extracted data is empty, no data will be processed")
     exit()
-  workflow_logger.info(f"Data extracted:\n{data}")
 
+  workflow_logger.info(f"Data extracted:\n{data}")
   return data
 
 def extract_redcap_data():
@@ -47,10 +56,6 @@ def extract_redcap_data():
   # Check if REDCap URL is provided
   if CONFIG['redcap_api_address'] is None:
     workflow_logger.error("No REDCap URL was specified in the config file")
-    exit()
-  # Check if extraction path is provided
-  if CONFIG['extraction_path'] is None:
-    workflow_logger.error("No extraction path was specified in the config file")
     exit()
   
   ## LOGIC to extract data from REDCap
@@ -82,4 +87,4 @@ def extract_redcap_data():
   df = pd.DataFrame(data)
   df.to_csv(CONFIG['extraction_path'], index=False)
   workflow_logger.info("Data saved to file: %s", CONFIG['extraction_path'])
-  return
+  return df
