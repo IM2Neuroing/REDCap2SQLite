@@ -39,7 +39,7 @@ def transform_patient(patient_df):
         
     ## SETUP Patient LOGGING
     # Configure patient logger only for file logging not for console logging
-    plogger = logging.getLogger('PatientLogger')
+    plogger = logging.getLogger(f'PatientLogger{patient_id}')
     plogger.setLevel(logging.INFO)
     plogger.propagate = False  # Prevent propagation to the root logger
     file_patient = logging.FileHandler(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.log')
@@ -56,6 +56,7 @@ def transform_patient(patient_df):
         try:
             entity_df = next(csv_mapping_reader)
             plogger.info("------------------------------------")
+            plogger.info("ENTITY: Start SQL creation of entity: %s",entity_df["Table"][0])
             create_imports_entity(patient_df,entity_df,plogger)
             plogger.info("------------------------------------")
         except StopIteration:

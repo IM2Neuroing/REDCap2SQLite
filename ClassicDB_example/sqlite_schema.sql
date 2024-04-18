@@ -46,7 +46,7 @@ CREATE TABLE `visits`(
     `date` DATE NOT NULL,
     `patient_id` INTEGER NOT NULL,
     `blood_level_id` INTEGER NOT NULL,
-    `compliance_id` INTEGER NOT NULL,
+    `compliance_id` INTEGER,
     FOREIGN KEY(`patient_id`) REFERENCES `patients`(`id`),
     FOREIGN KEY(`blood_level_id`) REFERENCES `blood_levels`(`id`),
     FOREIGN KEY(`compliance_id`) REFERENCES `compliance`(`id`)
