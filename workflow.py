@@ -4,30 +4,33 @@ from ETL.Load.load import load_data
 
 import logging
 
+# Configure logger
+workflow_logger = logging.getLogger('workflow_logger')
+workflow_logger.setLevel(logging.DEBUG)
+file_handler1 = logging.FileHandler('Workflow-debug.log')
+formatter = logging.Formatter('%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(funcName)-25s %(message)-50s')
+file_handler1.setFormatter(formatter)
+workflow_logger.addHandler(file_handler1)
+
 # Main Workflow
 def main_workflow():
-  # Define log file name
-  logfilename = f"Workflow.log"
-  # Configure the logger
-  logging.basicConfig(
-      filename= logfilename,  # Specify the log file
-      level=logging.INFO,   # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-       # format the log messages keeping the timestamp, log level, filename, and the message always keeping the same characters count
-      format='%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(message)-50s'
-  )
+  """
+  This function is the main workflow of the ETL process.
+  It calls the extract_data, transform_data, and load_data functions.
+  """
   # Log the start of the workflow
-  logging.info("Workflow started.")
+  workflow_logger.info("Workflow started.")
   # Extract data
   extracted_data = extract_data()
-  logging.info("Data extracted successfully.")
+  workflow_logger.info("Data extracted successfully.")
   
   # Transform data
   transform_data(extracted_data)
-  logging.info("Data transformed successfully.")
+  workflow_logger.info("Data transformed successfully.")
 
   # Load data
   load_data()
-  logging.info("Data loaded successfully.")
+  workflow_logger.info("Workflow finished successfully.")
 
 # Main program
 if __name__ == "__main__":
