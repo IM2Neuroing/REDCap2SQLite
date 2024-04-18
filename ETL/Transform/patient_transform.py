@@ -1,13 +1,17 @@
-import logging
-import pandas as pd
-import os
 from PyUtilities.setupFunctions import read_config_file, csvs_reader
 from PyUtilities.databaseFunctions import generate_insert_statement
 from ETL.Transform.transform_utils import drop_rows_with_NULL, getRedCapValueROW, getAllOccurringAttributes
 
+import logging
+import os
+import pandas as pd
+
 # load configuration file
 CONFIG_FILE_PATH = 'config.json'
 CONFIG = read_config_file(CONFIG_FILE_PATH)
+
+# Configure logger
+workflow_logger = logging.getLogger('workflow_logger')
 
 def transform_patient(patient_df):
     """
@@ -23,7 +27,7 @@ def transform_patient(patient_df):
     # Get the patient ID
     id_col_name = patient_df.columns[0]
     patient_id = patient_df[id_col_name].values[0]
-    logging.info("PATIENT: Prepare Import script Patient %s", patient_id)
+    workflow_logger.info("PATIENT: Prepare Import script Patient %s", patient_id)
 
     # check if data directory exists or create it
     if not os.path.exists(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}'):
@@ -36,7 +40,7 @@ def transform_patient(patient_df):
     ## SETUP Patient LOGGING
     # Configure patient logger only for file logging not for console logging
     plogger = logging.getLogger('PatientLogger')
-    plogger.setLevel(logging.DEBUG)
+    plogger.setLevel(logging.INFO)
     plogger.propagate = False  # Prevent propagation to the root logger
     file_patient = logging.FileHandler(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.log')
     formatter = logging.Formatter('%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(funcName)-25s %(message)-50s')
@@ -51,7 +55,9 @@ def transform_patient(patient_df):
     while True:
         try:
             entity_df = next(csv_mapping_reader)
+            plogger.info("------------------------------------")
             create_imports_entity(patient_df,entity_df,plogger)
+            plogger.info("------------------------------------")
         except StopIteration:
             break
 

@@ -1,8 +1,11 @@
 import os
 import datetime
 import json
-import logging
 import pandas as pd
+import logging
+
+# Configure logger
+workflow_logger = logging.getLogger('workflow_logger')
 
 def add_timestamp_to_filename(filename):
     """
@@ -36,9 +39,9 @@ def read_config_file(file_path):
     try:
         with open(file_path, 'r') as file:
             config_data = json.load(file)
-        logging.debug("Configuration file loaded")
+        workflow_logger.debug("Configuration file loaded")
     except FileNotFoundError:
-        logging.error("Configuration file not found")
+        workflow_logger.error("Configuration file not found")
         raise
     return config_data
 
@@ -47,7 +50,7 @@ def csvs_reader(folder_path):
     csv_files = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
     # Sort the CSV files by filename
     csv_files = sorted(csv_files)
-    logging.debug("Found mapping CSVs %s", str(csv_files))
+    workflow_logger.debug("Found mapping CSVs %s", str(csv_files))
     
     # Iterate through each CSV file
     for csv_file in csv_files:
@@ -56,7 +59,7 @@ def csvs_reader(folder_path):
         
         # Read the CSV file into a Pandas DataFrame
         df = pd.read_csv(csv_path)
-        logging.debug("Read in: %s", str(csv_path))
+        workflow_logger.debug("Read in: %s", str(csv_path))
         
         # Yield the DataFrame to the caller
         yield df

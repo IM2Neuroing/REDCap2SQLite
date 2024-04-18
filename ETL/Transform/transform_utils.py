@@ -1,5 +1,5 @@
+from PyUtilities.databaseFunctions import generate_search_statement
 import pandas as pd
-from PyUtilities.databaseFunctions import generate_search_statement, execute_sql_statement
 
 def getAllOccurringAttributes(field_name_list):
     '''

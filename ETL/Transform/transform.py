@@ -1,8 +1,11 @@
-import logging
+from ETL.Transform.patient_transform import transform_patient
+
 import pandas as pd
 import concurrent.futures
+import logging
 
-from ETL.Transform.patient_transform import transform_patient
+# Configure logger
+workflow_logger = logging.getLogger('workflow_logger')
 
 def transform_data(data):
   """
@@ -22,7 +25,7 @@ def transform_data(data):
   # Get number of patients
   list_of_patients = data[id_col_name].unique()
   number_of_patients = len(list_of_patients)
-  logging.info("Number of patients: %s", str(number_of_patients))
+  workflow_logger.info("Number of patients: %s", str(number_of_patients))
 
   # Number of threads to run concurrently
   max_threads = 1

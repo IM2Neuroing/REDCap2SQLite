@@ -1,8 +1,11 @@
 import sqlite3
-import logging
 import re
 import os
 import pandas as pd
+import logging
+
+# Configure logger
+workflow_logger = logging.getLogger('workflow_logger')
 
 def create_database(database_name, database_sql ,wipe=False):
     """
@@ -19,13 +22,12 @@ def create_database(database_name, database_sql ,wipe=False):
 
     # First check if the database already exists
     if os.path.exists(database_name):
-        logging.warning("Database already exists: %s", database_name)
         if wipe:
             wipe_sqlite_database(database_name)
-            logging.debug("Database wiped: %s", database_name)
+            workflow_logger.info("Database wiped: %s", database_name)
         # If the database already exists, return
         else:
-            logging.debug("Database have not been wiped: %s", database_name)
+            workflow_logger.info("Database have not been wiped: %s", database_name)
             return None
         
     try:
@@ -38,15 +40,15 @@ def create_database(database_name, database_sql ,wipe=False):
         # Open the SQL script file and read the content
         with open(database_sql, 'r') as sql_file:
             script = sql_file.read()
-        logging.debug("Database schema loaded")
+        workflow_logger.debug("Database schema loaded")
 
         # Execute the SQL script to initialize the database
         cursor.executescript(script)
         conn.commit()
-        logging.debug("Database created: %s", database_name)
+        workflow_logger.info("Database created: %s", database_name)
 
     except sqlite3.Error as e:
-        logging.error("Database Creation: An error occurred: SQL-shema", e)
+        workflow_logger.error("Database Creation: An error occurred: SQL-shema", e)
         return None
     
     finally:
@@ -77,15 +79,15 @@ def wipe_sqlite_database(db_name):
         # Drop all tables
         for table_name in tables:
             cursor.execute(f"DROP TABLE {table_name[0]};")
-            logging.debug(f"Table {table_name[0]} dropped")
+            workflow_logger.debug(f"Table {table_name[0]} dropped")
 
         # Commit the changes and close the connection
         conn.commit()
         conn.close()
-        logging.debug("Database wiped: %s", db_name)
+        workflow_logger.debug("Database wiped: %s", db_name)
 
     except sqlite3.Error as e:
-        logging.error("Database Creation (Wiping-step): An error occurred:", e)
+        workflow_logger.error("Database Creation (Wiping-step): An error occurred:", e)
         return None
 
     finally:
@@ -166,11 +168,11 @@ def execute_sql_statement(sql_statement, db_file):
         # If the statement is an update, delete, or insert, commit the changes
         else:
             conn.commit()
-            logging.debug(f"Statement:{sql_statement}: ran successfully")
+            workflow_logger.debug(f"Statement:{sql_statement}: ran successfully")
             return "Statement executed successfully."
 
     except sqlite3.Error as e:
-        logging.error(f"Statement:{sql_statement}: failed: {e}")
+        workflow_logger.error(f"Statement:{sql_statement}: failed: {e}")
         return f"Statement:{sql_statement}: failed: {e}"
 
     finally:
@@ -178,6 +180,64 @@ def execute_sql_statement(sql_statement, db_file):
         cursor.close()
         conn.close()
 
+def execute_sql_script(sql_script, db_file):
+    """
+    This function executes an SQL script on a SQLite database.
+
+    Args:
+    sql_script (str): The SQL script to be executed.
+    db_file (str): The path to the SQLite database.
+
+    Returns:
+    None
+    """
+    # Connect to the SQLite database
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    try:
+        # Execute the SQL script
+        cursor.executescript(sql_script)
+        conn.commit()
+        workflow_logger.debug("SQL script executed successfully.")
+
+    except sqlite3.Error as e:
+        workflow_logger.error("SQL script execution failed:", e)
+        return None
+
+    finally:
+        # Close the database connection
+        cursor.close()
+        conn.close()
+
+# Data check Function
+def data_check(db_file):
+    """
+    Function to check if the data was loaded into the database.
+    It retrieves the number of rows in each table and logs the result.
+    :param db_file: complete file path to db
+    :return: None
+    """
+    # Connect to the SQLite database
+    conn = sqlite3.connect(db_file)
+    
+    # Create a cursor object
+    cursor = conn.cursor()
+    
+    # Execute the SQL query to retrieve all table names
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    
+    # Fetch the result of the query
+    tables = cursor.fetchall()
+    
+    # For each table, execute a SQL query to count the number of rows
+    for table in tables:
+      cursor.execute(f"SELECT COUNT(*) FROM {table[0]}")
+      count = cursor.fetchone()[0]
+      workflow_logger.info(f"Data check: Table {table[0]} has {count} rows.")
+    
+    # Close the connection to the database
+    conn.close()
 
 def fix_sql_query(sql_query):
     """
