@@ -98,7 +98,7 @@ def create_imports_entity(patient_df,mapping,plogger):
 
     # Check if the patient_subset_df is empty
     if patient_subset_df.empty:
-        plogger.warning(f"ENTITY: No subset df for entity: {mapping['Table'][0]}, does not contain any elements from mapping")
+        plogger.warning(f"ENTITY: No subset df for entity: {mapping['Table'].values[0]}, does not contain any elements from mapping")
         return
     
     # Check if the patient_subset_df contains the 'redcap_repeat_instance' column
@@ -131,7 +131,7 @@ def create_imports_repeat(num,entity_repeat,patient_df,mapping,plogger):
     mapping (pandas.DataFrame): The mapping data of ONE entity.
     plogger (logging.Logger): The logger for the patient.
     """
-    plogger.debug("REPEAT: import entity %s \tNumber: %s",mapping["Table"][0],num)
+    plogger.debug("REPEAT: import entity %s \tNumber: %s",mapping["Table"].values[0],num)
     plogger.debug("REPEAT: \n%s",entity_repeat)
 
     # check if any row has a "MULT" for multiple values (in this case several entities are created)
