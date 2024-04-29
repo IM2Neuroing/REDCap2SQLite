@@ -4,6 +4,7 @@
 
 # Ignore virtual environment directories
 .venv/
+venv/
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/

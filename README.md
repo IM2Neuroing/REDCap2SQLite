@@ -1,46 +1,84 @@
-# RedCap2SQLite (REDCap to SQLite Data Transfer)
+# REDCap to SQLite ETL Tool
 
 ## Introduction
 
-This project is a Python application that fetches data from a REDCap server and stores it in a SQLite database.
+This project is a Python-based ETL (Extract, Transform, Load) tool designed to fetch data from a REDCap server and store it in a SQLite database. The ETL process involves the following steps:
 
-## Usage
+1. **Extract**: Data is extracted from the REDCap server using REDCap APIs. Or if the data is already extracted, it is read from the extracted files.
+2. **Transform**: The extracted data is then transformed into a format suitable for insertion into a SQLite database and stored as SQL files.
+3. **Load**: The transformed data (one SLQ file per patient) is loaded into the SQLite database.
 
-1. Ensure Python is installed on your system.
-1. Clone this repository.
-1. Navigate to the root directory and run python main.py to start the script.
+This tool is particularly useful for users needing to transfer large amounts of data from REDCap to SQLite in a reliable and efficient manner.
+You can customize the data model and mapping tables to suit your specific requirements. The tool can be easily tested without having access to a REDCap project token by using the provided example data.
 
-## Functionality
+## System Setup
 
-The script uses REDCap APIs to access and retrieve necessary data from the REDCap server, then it transfers this data to a SQLite database. This project can be useful for users needing to transfer large amounts of data from REDCap to SQLite reliably.
+1. Ensure Python 3.x is installed on your system. You can verify this by running `python --version` in your terminal.
+2. Clone this repository to your local machine.
+3. Navigate to the root directory of the cloned repository.
 
-## Requirements
+## Python Environment Setup
 
-- Python 3.x
-- SQLite version x.x.x
-- REDCap API access
+1. It is recommended to create a virtual environment to isolate the project dependencies. You can do this by running `python -m venv venv`.
+2. Activate the virtual environment by running `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows).
+3. Install the required Python packages by running `pip install -r requirements.txt`.
+
+## Config File Setup
+
+1. Create a `config.json` file in the root directory. This file will store the configuration parameters for the ETL process. You can use the `config_example.json` file as a template.
+2. Define the following parameters in the `config.json` file:
+    - `repository_root`: The path to the root directory of the cloned repository.
+    - `extract_redcap`: True if data should be extracted from REDCap, False otherwise.
+    - `redcap_api_address`: The URL of the REDCap API.
+    - `redcap_project`: The name of the REDCap project.
+    - `redcap_api_token`: The API token for accessing the REDCap project.
+    - `extraction_path`: The path where the extracted data should be stored.
+    - `data_path`: The path where the data files are stored.
+    - `mapping_path`: The path to the mapping tables.
+    - `db_creation`: True if the database should be created, False otherwise.
+    - `db_wipe`: True if the database should be wiped before loading data, False otherwise.
+    - `db_path`: The path where the SQLite database should be stored.
+    - `db_schema`: The path to the data model (SQL schema) file.
+    - `db_load_data`: True if data should be loaded into the database, False otherwise.
+
+## Data Model Definition
+
+1. Define your data model in a separate SQL file. This should include the tables and fields that will be present in your SQLite database.
+2. Define the path to this file in the `config.json` file under the `db_schema` parameter.
+
+## Mapping to Target Data Model
+
+1. Write a mapping files in your mapping folder (defined in the `config.json` file) to map the extracted data to the target data model. These csv files will help to transform the extracted REDCap data into the format of your SQLite data model.
+2. The mapping files should have the following columns:
+    - `Table`: The name of the table in the target data model.
+    - `Attribute`: The name of the attribute in the target data model.
+    - `NotNull`_: NOT NULL if the attribute is required, nothing otherwise.
+    - `field_name`: The name of the field in the REDCap data.
+For further information, see the [`Mapping.md`](Mapping.md) file and some example mapping files in the `mappingtables` folder of the ClassicDB example.
+
+## Running the Tool
+
+1. With the virtual environment activated and in the root directory, run `python workflow.py` to start the ETL process.
+
+## Example Data
+
+1. The `ClassicDB_example` folder contains [example data](ClassicDB_example/data/ClassicDatabase_DATA.csv), a [data model](ClassicDB_example/sqlite_schema.sql) (see Figure) and their corresponding mapping tables ([One possible mapping of Patient data](ClassicDB_example/mappingtables/1-0-patients.csv)) that can be used to test the ETL process without having access to a REDCap project.
+2. The example data is stored in a [CSV file](ClassicDB_example/data/ClassicDatabase_DATA.csv) and can be used to simulate the extraction process.
+3. The example data can be used to test the transformation and loading processes as well.
+
+![Data Model of Classic Database Example from REDCap](ClassicDB_example/classicDB.png)
+
+## License
+
+This project is licensed under the MIT License. This means you are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, under the conditions that you include the following:
+
+1. A copy of the original MIT License in any redistributed copies or substantial portions of the software.
+2. A clear acknowledgement of the original source of the software.
+
+For more details, please see the [LICENSE](LICENSE) file in the project root.
 
 ## Contributing
 
 Contributions, issues, and feature requests are welcome!
 
 ***Enjoy transferring data from REDCap to SQLite efficiently and reliably!***
-
-## **ETL Workflow Overview**
-
-This workflow performs Extract, Transform, and Load (ETL) operations on data.
-
-- **Extract:** Reads data from a source (e.g., CSV file).
-- **Transform:** Processes the extracted data (e.g., cleaning, filtering).
-- **Load:** Writes the transformed data to a destination (e.g., database).
-
-**Files:**
-
-- workflow.py: Defines the main workflow logic.
-- extract.py: Contains the logic to extract data.
-- transform.py: Contains the logic to transform data.
-- load.py: Contains the logic to load data.
-
-**Execution:**
-
-Run the `workflow.py` script to execute the ETL process.
