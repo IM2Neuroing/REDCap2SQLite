@@ -275,10 +275,14 @@ def replace_IFvalue_with_value(value,df,patient_df,plogger):
         plogger.debug("y: %s", y)
         plogger.debug("a: %s", a)
         plogger.debug("b: %s", b)
-        if type(x) is str:
+        if type(x) is str and type(y) is str:
             return a if y == x else b
-        elif type(x) is list:
+        elif type(x) is list and type(y) is str:
             return a if y in x else b
+        elif type(x) is str and type(y) is list:
+            return a if x in y else b
+        elif type(x) is list and type(y) is list:
+            return a if any([item in x for item in y]) else b
         else:
             plogger.error("Unvalid IF statetment: x is a %s", type(x))
             return None
