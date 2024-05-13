@@ -90,7 +90,8 @@ def load_data_into_database():
         with open(sql_file, 'r') as file:
           sql = file.read()
           # Execute the SQL
-          execute_sql_script(sql,CONFIG['db_path'])
+          result = execute_sql_script(sql,CONFIG['db_path'])
+          workflow_logger.info("SQL file %s executed %s", sql_file, result)
 
       workflow_logger.debug("Data loaded into SQLite Database")
 
