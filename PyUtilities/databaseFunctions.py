@@ -108,7 +108,7 @@ def generate_insert_statement(table_name, data):
     columns = ', '.join(data.keys())
     values = ', '.join(["'" + str(value) + "'" for value in data.values()])
     # remove ' before and after numeric values to avoid SQL errors
-    values = re.sub(r"'(\d+)'", r'\1', values)
+    values = re.sub(r"'(\d+(\.\d+)?)'", r"\1", values)
     # remove ' before opening brackets to avoid SQL errors
     values = re.sub(r"'(\()", r'\1', values)
     # remove ' after closing brackets to avoid SQL errors
@@ -134,7 +134,7 @@ def generate_search_statement(searched_attribute,table,attributes,redcapvalues):
     # add ' before and after
     redcapvalues = [f"'{value}'" for value in redcapvalues]
     # remove ' before and after numeric values to avoid SQL errors
-    redcapvalues = [re.sub(r"'(\d+)'", r'\1', value) for value in redcapvalues]
+    redcapvalues = [re.sub(r"'(\d+(\.\d+)?)'", r'\1', value) for value in redcapvalues]
     # remove ' before opening brackets to avoid SQL errors
     redcapvalues = [re.sub(r"'(\()", r'\1', value) for value in redcapvalues]
     # remove ' after closing brackets to avoid SQL errors
