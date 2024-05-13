@@ -199,11 +199,11 @@ def execute_sql_script(sql_script, db_file):
         # Execute the SQL script
         cursor.executescript(sql_script)
         conn.commit()
-        workflow_logger.debug("SQL script executed successfully.")
+        return "successfully."
 
     except sqlite3.Error as e:
         workflow_logger.error("SQL script execution failed:", e)
-        return None
+        return e
 
     finally:
         # Close the database connection
