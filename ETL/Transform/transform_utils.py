@@ -328,7 +328,7 @@ def split_string(input_string):
 
 def drop_rows_with_NULL(df, column_name):
     '''
-    Drop rows containing the keyword 'NULL' in the 'columname' column except for the NOTNULL attributes
+    Drop rows equals the keyword 'NULL' in the 'columname' column 
 
     Args:
     df (pandas.DataFrame): The DataFrame containing the data.
@@ -337,5 +337,5 @@ def drop_rows_with_NULL(df, column_name):
     Returns:
     pandas.DataFrame: The filtered DataFrame.
     '''
-    return df[~df[column_name].astype(str).str.contains('NULL', case=True)]
+    return df[df[column_name] != 'NULL']
 
