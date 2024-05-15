@@ -40,7 +40,7 @@ def transform_patient(patient_df):
     ## SETUP Patient LOGGING
     # Configure patient logger only for file logging not for console logging
     plogger = logging.getLogger(f'PatientLogger{patient_id}')
-    plogger.setLevel(logging.INFO)
+    plogger.setLevel(logging.DEBUG)
     plogger.propagate = False  # Prevent propagation to the root logger
     file_patient = logging.FileHandler(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.log')
     formatter = logging.Formatter('%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(funcName)-25s %(message)-50s')
@@ -61,6 +61,24 @@ def transform_patient(patient_df):
             plogger.info("------------------------------------")
         except StopIteration:
             break
+    
+    # optimize the SQL file
+    # drop duplicated lines keeping only the first occurrence
+    with open(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.sql', 'r') as f:
+        lines = f.readlines()
+
+    # Remove duplicates while preserving order
+    lines = list(dict.fromkeys(lines))
+
+    with open(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.sql', 'w') as f:
+        f.writelines(lines)
+
+    # Log the completion of the import script for the patient
+    plogger.info("PATIENT: Import script for Patient %s is ready", patient_id)
+
+    # Close the patient-specific log file
+    file_patient.close()
+
 
 
 def create_imports_entity(patient_df,mapping,plogger):
