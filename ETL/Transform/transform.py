@@ -28,17 +28,19 @@ def transform_data(data):
     workflow_logger.info("Number of patients: %s", str(number_of_patients))
 
     # Number of threads to run concurrently
-    max_threads = 8
+    max_threads = 50
 
     # Preliminary data cleaning which could disrupt the transformation
     # replace all occurrences within the data
     # all "'" with "`" and '"' with "`"
     # all "(" with "{" and ")" with "}"
+    # all new lines within a cell with a space
     data = data.replace("'", "`", regex=True)
     data = data.replace('"', "`", regex=True)
     data = data.replace("\(", ".(", regex=True)
     data = data.replace("\)", ").", regex=True)
-    
+    data.value = data.value.str.replace("\n", " ")
+
     workflow_logger.info(f"Data cleaned:{data[data.values == '{']}")
  
     ## Create a ThreadPoolExecutor with a maximum of max_threads threads

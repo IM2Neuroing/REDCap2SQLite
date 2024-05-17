@@ -62,17 +62,6 @@ def transform_patient(patient_df):
         except StopIteration:
             break
     
-    # optimize the SQL file
-    # drop duplicated lines keeping only the first occurrence
-    with open(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.sql', 'r') as f:
-        lines = f.readlines()
-
-    # Remove duplicates while preserving order
-    lines = list(dict.fromkeys(lines))
-
-    with open(f'{CONFIG["data_path"]}/Patients/Patient-{patient_id}/Patient-{patient_id}.sql', 'w') as f:
-        f.writelines(lines)
-
     # Log the completion of the import script for the patient
     plogger.info("PATIENT: Import script for Patient %s is ready", patient_id)
 
