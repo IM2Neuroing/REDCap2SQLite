@@ -202,7 +202,7 @@ def execute_sql_script(sql_script, db_file):
         return "successfully."
 
     except sqlite3.Error as e:
-        workflow_logger.error("SQL script execution failed:", e)
+        workflow_logger.exception("SQL script execution failed:", e)
         return e
 
     finally:
