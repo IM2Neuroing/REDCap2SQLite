@@ -1,11 +1,14 @@
 from ETL.Transform.patient_transform import transform_patient
-
+from PyUtilities.setupFunctions import read_config_file
 import pandas as pd
 import concurrent.futures
 import logging
 
 # Configure logger
 workflow_logger = logging.getLogger('workflow_logger')
+# load configuration file
+CONFIG_FILE_PATH = 'config.json'
+CONFIG = read_config_file(CONFIG_FILE_PATH)
 
 def transform_data(data):
     """
@@ -19,6 +22,11 @@ def transform_data(data):
     Returns:
     None
     """
+    ## Check Data needs to be transformed
+    if CONFIG['transform_data'] == False:
+        workflow_logger.info("Data transformation is disabled.")
+        return
+    
     ## Prepare import of patients
     # Get the name of the column that contains the patient ID
     id_col_name = data.columns[0]

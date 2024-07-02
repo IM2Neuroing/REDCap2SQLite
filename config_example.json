@@ -8,6 +8,7 @@
     "redcap_api_token": "SOMETHINGSECRET",
     "extraction_path": "ClassicDB_example/data/ClassicDatabase_DATA.csv",
     "__comment-TRANSFORM__": "Transform-part:",
+    "transform_data" : true,
     "data_path": "ClassicDB_example/data/",
     "mapping_path":"ClassicDB_example/mappingtables/",
     "__comment-LOAD__": "Load-part:",
