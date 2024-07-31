@@ -41,7 +41,7 @@ def read_config_file(file_path):
             config_data = json.load(file)
         workflow_logger.debug("Configuration file loaded")
     except FileNotFoundError:
-        workflow_logger.error("Configuration file not found")
+        workflow_logger.error(f"Configuration file not found at {file_path}, search path: {os.getcwd()}")
         raise
     return config_data
 
