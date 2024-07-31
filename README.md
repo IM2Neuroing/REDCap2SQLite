@@ -15,7 +15,7 @@ You can customize the data model and mapping tables to suit your specific requir
 
 ### Docker Environment Setup
 
-1. Ensure Docker is installed on your system. You can verify this by running `docker --version` in your terminal.
+1. Ensure Docker and Docker-compose are installed on your system. You can verify this by running `docker --version` and `docker-compose --version`  in your terminal.
 2. Clone this repository to your local machine.
 3. Navigate to the root directory of the cloned repository.
 4. Define the Data Model and Mapping to Target Data Model as described in the "Data Model Definition" and "Mapping to Target Data Model" sections below.
@@ -79,23 +79,28 @@ For further information, see the [`Mapping.md`](Mapping.md) file and some exampl
 ### To run the example data with Docker
 
 1. Copy the 'ClassicDB_Data.csv' file to the Root 'data' folder.
-''' shell
-cp ClassicDB_example/data/ClassicDatabase_DATA.csv data/
-'''
+    ```shell
+    cp ClassicDB_example/data/ClassicDatabase_DATA.csv data/
+    ```
 2. Rename the 'config_docker_example.json' file to 'config_docker.json'.
-''' shell
-mv config_docker_example.json config_docker.json
-'''
-3. Run the docker-compose file by running `docker-compose up`.
+    ```shell
+    mv config_docker_example.json config_docker.json
+    ```
+4. Run the docker-compose file.
+    ```shell
+    docker-compose up
+    ```
 
 ### To run the example data with Python
 
 1. Rename the 'config_example.json' file to 'config.json'.
-''' shell
-mv config_example.json config.json
-'''
-2. Run the ETL process by running `python workflow.py`.
-
+    ```shell
+    mv config_example.json config.json
+    ```
+2. Run the ETL process.
+    ```shell
+    python workflow.py
+    ```
 ## License
 
 This project is licensed under the MIT License. This means you are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, under the conditions that you include the following:
