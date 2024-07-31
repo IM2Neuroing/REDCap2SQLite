@@ -1,0 +1,2 @@
+# Run the ETL script every 24 hours
+0 0 * * * cd /app && /usr/local/bin/python etl.py >> /app/logs/cron.log 2>&1

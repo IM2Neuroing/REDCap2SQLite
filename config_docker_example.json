@@ -1,0 +1,19 @@
+{    
+    "__comment-MAIN__": "MAIN-part:",
+    "__comment-EXTRACT__": "Extract-part:",
+    "extract_redcap": true,
+    "redcap_api_address": "https://example.redcap.com//api/",
+    "redcap_project": "ClassicDatabase",
+    "redcap_api_token": "SOMETHING",
+    "extraction_path": "data/ClassicDatabase_DATA.csv",
+    "__comment-TRANSFORM__": "Transform-part:",
+    "transform_data" : true,
+    "data_path": "data/",
+    "mapping_path":"setup/mappingtables/",
+    "__comment-LOAD__": "Load-part:",
+    "db_creation": true,
+    "db_wipe":true,
+    "db_path": "data/classicDB.db",
+    "db_schema": "setup/sqlite_schema.sql",
+    "db_load_data": true
+}

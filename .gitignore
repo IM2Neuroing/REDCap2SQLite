@@ -17,3 +17,13 @@ venv/
 
 # Ignore files
 config.json
+.vscode
+config_docker.json
+
+# Ignore files within data directory
+data/*
+!data/.gitkeep
+
+# Ignore files within logs directory
+logs/*
+!logs/.gitkeep

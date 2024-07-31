@@ -1,6 +1,5 @@
 {    
     "__comment-MAIN__": "MAIN-part:",
-    "repository_root": "path/to/repo/RedCap2SQLite",
     "__comment-EXTRACT__": "Extract-part:",
     "extract_redcap": false,
     "redcap_api_address": "https://redcap.example.com/api/",

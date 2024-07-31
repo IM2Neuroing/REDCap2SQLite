@@ -13,17 +13,44 @@ You can customize the data model and mapping tables to suit your specific requir
 
 ## System Setup
 
+### Docker Environment Setup
+
+1. Ensure Docker is installed on your system. You can verify this by running `docker --version` in your terminal.
+2. Clone this repository to your local machine.
+3. Navigate to the root directory of the cloned repository.
+4. Define the Data Model and Mapping to Target Data Model as described in the "Data Model Definition" and "Mapping to Target Data Model" sections below.
+5. Create a `config_docker.json` file in the root directory. You can use the `config_docker_example.json` file as a template. Define the parameters as described in the "Config File Setup" section below.
+6. Run the docker-compose file by running `docker-compose up`.
+7. The ETL process will start automatically, and repeat every 24 hours.
+
+### Python Environment Setup
+
 1. Ensure Python 3.x is installed on your system. You can verify this by running `python --version` in your terminal.
 2. Clone this repository to your local machine.
 3. Navigate to the root directory of the cloned repository.
+4. It is recommended to create a virtual environment to isolate the project dependencies. You can do this by running `python -m venv venv`.
+5. Activate the virtual environment by running `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows).
+6. Install the required Python packages by running `pip install -r requirements.txt`.
+7. Define the Data Model and Mapping to Target Data Model as described in the "Data Model Definition" and "Mapping to Target Data Model" sections below.
+8. Create a `config.json` file in the root directory. You can use the `config_example.json` file as a template. Define the parameters as described in the "Config File Setup" section below.
+9. Run the ETL process by running `python workflow.py`.
 
-## Python Environment Setup
+### Data Model Definition
 
-1. It is recommended to create a virtual environment to isolate the project dependencies. You can do this by running `python -m venv venv`.
-2. Activate the virtual environment by running `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows).
-3. Install the required Python packages by running `pip install -r requirements.txt`.
+1. Define your data model in a separate SQL file. This should include the tables and fields that will be present in your SQLite database.
+2. Define the path to this file in the `config.json` file under the `db_schema` parameter.
 
-## Config File Setup
+### Mapping to Target Data Model
+
+1. Write a mapping files in your mapping folder (defined in the `config.json` file) to map the extracted data to the target data model. These csv files will help to transform the extracted REDCap data into the format of your SQLite data model.
+2. The mapping files should have the following columns:
+    - `Table`: The name of the table in the target data model.
+    - `Attribute`: The name of the attribute in the target data model.
+    - `NotNull`_: NOT NULL if the attribute is required, nothing otherwise.
+    - `field_name`: The name of the field in the REDCap data.
+For further information, see the [`Mapping.md`](Mapping.md) file and some example mapping files in the `mappingtables` folder of the ClassicDB example.
+
+### Config File Setup
 
 1. Create a `config.json` file in the root directory. This file will store the configuration parameters for the ETL process. You can use the `config_example.json` file as a template.
 2. Define the following parameters in the `config.json` file:
@@ -41,25 +68,6 @@ You can customize the data model and mapping tables to suit your specific requir
     - `db_schema`: The path to the data model (SQL schema) file.
     - `db_load_data`: True if data should be loaded into the database, False otherwise.
 
-## Data Model Definition
-
-1. Define your data model in a separate SQL file. This should include the tables and fields that will be present in your SQLite database.
-2. Define the path to this file in the `config.json` file under the `db_schema` parameter.
-
-## Mapping to Target Data Model
-
-1. Write a mapping files in your mapping folder (defined in the `config.json` file) to map the extracted data to the target data model. These csv files will help to transform the extracted REDCap data into the format of your SQLite data model.
-2. The mapping files should have the following columns:
-    - `Table`: The name of the table in the target data model.
-    - `Attribute`: The name of the attribute in the target data model.
-    - `NotNull`_: NOT NULL if the attribute is required, nothing otherwise.
-    - `field_name`: The name of the field in the REDCap data.
-For further information, see the [`Mapping.md`](Mapping.md) file and some example mapping files in the `mappingtables` folder of the ClassicDB example.
-
-## Running the Tool
-
-1. With the virtual environment activated and in the root directory, run `python workflow.py` to start the ETL process.
-
 ## Example Data
 
 1. The `ClassicDB_example` folder contains [example data](ClassicDB_example/data/ClassicDatabase_DATA.csv), a [data model](ClassicDB_example/sqlite_schema.sql) (see Figure) and their corresponding mapping tables ([One possible mapping of Patient data](ClassicDB_example/mappingtables/1-0-patients.csv)) that can be used to test the ETL process without having access to a REDCap project.
@@ -67,6 +75,26 @@ For further information, see the [`Mapping.md`](Mapping.md) file and some exampl
 3. The example data can be used to test the transformation and loading processes as well.
 
 ![Data Model of Classic Database Example from REDCap](ClassicDB_example/classicDB.png)
+
+### To run the example data with Docker
+
+1. Copy the 'ClassicDB_Data.csv' file to the Root 'data' folder.
+''' shell
+cp ClassicDB_example/data/ClassicDatabase_DATA.csv data/
+'''
+2. Rename the 'config_docker_example.json' file to 'config_docker.json'.
+''' shell
+mv config_docker_example.json config_docker.json
+'''
+3. Run the docker-compose file by running `docker-compose up`.
+
+### To run the example data with Python
+
+1. Rename the 'config_example.json' file to 'config.json'.
+''' shell
+mv config_example.json config.json
+'''
+2. Run the ETL process by running `python workflow.py`.
 
 ## License
 

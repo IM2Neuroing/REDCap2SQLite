@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  redcap2sqlite:
+    build: .
+    volumes:
+      # folders to mount
+      - ./data/:/app/data/
+      - ./logs/:/app/logs/
+      # files to mount needed for the configuration
+      - ./config_docker.json:/app/config.json:ro
+      # mount the entire mappingtables directory
+      - ./ClassicDB_example/mappingtables:/app/setup/mappingtables:ro
+      # mount the sqlite schema file
+      - ./ClassicDB_example/sqlite_schema.sql:/app/setup/sqlite_schema.sql:ro
+    environment:
+      - PYTHONUNBUFFERED=1
