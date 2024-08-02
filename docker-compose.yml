@@ -5,10 +5,12 @@ services:
     image: ghcr.io/im2neuroing/redcap2sqlite:1.1
     volumes:
       # folders to mount
-      - ./data/:/app/data/
-      - ./logs/:/app/logs/
+      - ./DMS/:/app/DMS/
       # files to mount needed for the configuration
       - ./config_docker.json:/app/config.json:ro
+
+      # (optional) mount the raw data csv file (if extraction is skipped - see example)
+      - ./ClassicDB_example/rawdata/ClassicDatabase_DATA.csv:/app/setup/DATA.csv:ro
       # mount the entire mappingtables directory
       - ./ClassicDB_example/mappingtables:/app/setup/mappingtables:ro
       # mount the sqlite schema file

@@ -7,7 +7,7 @@ import logging
 # Configure logger
 workflow_logger = logging.getLogger('workflow_logger')
 workflow_logger.setLevel(logging.INFO)
-file_handler1 = logging.FileHandler('logs/cron.log')
+file_handler1 = logging.FileHandler('/var/log/cron.log')
 formatter = logging.Formatter('%(asctime)-20s - %(levelname)-10s - %(filename)-25s - %(funcName)-25s %(message)-50s')
 file_handler1.setFormatter(formatter)
 workflow_logger.addHandler(file_handler1)
