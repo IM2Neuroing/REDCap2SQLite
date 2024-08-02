@@ -79,27 +79,21 @@ For further information, see the [`Mapping.md`](Mapping.md) file and some exampl
 
 ### To run the example data with Docker
 
-1. Copy the 'ClassicDB_Data.csv' file to the Root 'data' folder.
-
-    ```shell
-    cp ClassicDB_example/data/ClassicDatabase_DATA.csv data/
-    ```
-
-2. Rename the 'config_docker_example.json' file to 'config_docker.json'.
+1. Copy and rename the 'config_docker_example.json' file to 'config_docker.json'.
 
     ```shell
     cp config_docker_example.json config_docker.json
     ```
 
-3. Run the docker-compose file.
+2. Run the docker-compose file.
 
     ```shell
     docker-compose up -d
     ```
 
-4. The ETL process will start automatically, and repeat every 24 hours.
+3. The ETL process will start automatically, and repeat every 6 hours.
 
-5. (optional) To stop the ETL process, run the following command.
+4. (optional) To stop the ETL process, run the following command.
 
     ```shell
     docker-compose down
