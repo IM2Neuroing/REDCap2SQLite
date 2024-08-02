@@ -22,6 +22,7 @@ You can customize the data model and mapping tables to suit your specific requir
 5. Create a `config_docker.json` file in the root directory. You can use the `config_docker_example.json` file as a template. Define the parameters as described in the "Config File Setup" section below.
 6. Run the docker-compose file by running `docker-compose up`.
 7. The ETL process will start automatically, and repeat every 24 hours.
+8. To stop the ETL process, run `docker-compose down`.
 
 ### Python Environment Setup
 
@@ -79,28 +80,45 @@ For further information, see the [`Mapping.md`](Mapping.md) file and some exampl
 ### To run the example data with Docker
 
 1. Copy the 'ClassicDB_Data.csv' file to the Root 'data' folder.
+
     ```shell
     cp ClassicDB_example/data/ClassicDatabase_DATA.csv data/
     ```
+
 2. Rename the 'config_docker_example.json' file to 'config_docker.json'.
+
     ```shell
-    mv config_docker_example.json config_docker.json
+    cp config_docker_example.json config_docker.json
     ```
-4. Run the docker-compose file.
+
+3. Run the docker-compose file.
+
     ```shell
-    docker-compose up
+    docker-compose up -d
+    ```
+
+4. The ETL process will start automatically, and repeat every 24 hours.
+
+5. (optional) To stop the ETL process, run the following command.
+
+    ```shell
+    docker-compose down
     ```
 
 ### To run the example data with Python
 
 1. Rename the 'config_example.json' file to 'config.json'.
+
     ```shell
     mv config_example.json config.json
     ```
+
 2. Run the ETL process.
+
     ```shell
     python workflow.py
     ```
+
 ## License
 
 This project is licensed under the MIT License. This means you are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, under the conditions that you include the following:

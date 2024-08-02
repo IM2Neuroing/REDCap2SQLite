@@ -1,7 +1,7 @@
 {    
     "__comment-MAIN__": "MAIN-part:",
     "__comment-EXTRACT__": "Extract-part:",
-    "extract_redcap": true,
+    "extract_redcap": false,
     "redcap_api_address": "https://example.redcap.com//api/",
     "redcap_project": "ClassicDatabase",
     "redcap_api_token": "SOMETHING",
