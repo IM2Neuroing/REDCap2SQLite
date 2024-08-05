@@ -27,3 +27,4 @@ data/*
 # Ignore files within logs directory
 logs/*
 !logs/.gitkeep
+DMS/Patients
