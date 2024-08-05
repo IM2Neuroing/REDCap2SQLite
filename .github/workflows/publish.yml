@@ -14,5 +14,4 @@ jobs:
       - name: Build the redcap2sqlite Docker image
         run: |
           docker build . --tag ghcr.io/im2neuroing/redcap2sqlite:latest
-          docker run ghcr.io/im2neuroing/redcap2sqlite:latest
           docker push ghcr.io/im2neuroing/redcap2sqlite:latest
