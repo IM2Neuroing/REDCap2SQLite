@@ -10,7 +10,7 @@ services:
       - ./config_docker.json:/app/config.json:ro
 
       # (optional) mount the raw data csv file (if extraction is skipped - see example)
-      - ./ClassicDB_example/rawdata/ClassicDatabase_DATA.csv:/app/setup/DATA.csv:ro
+      - ./ClassicDB_example/rawdata/ClassicDatabase_DATA.csv:/app/setup/DATA.csv
       # mount the entire mappingtables directory
       - ./ClassicDB_example/mappingtables:/app/setup/mappingtables:ro
       # mount the sqlite schema file
