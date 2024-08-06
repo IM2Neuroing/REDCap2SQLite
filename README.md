@@ -21,7 +21,7 @@ You can customize the data model and mapping tables to suit your specific requir
 4. Define the Data Model and Mapping to Target Data Model as described in the "Data Model Definition" and "Mapping to Target Data Model" sections below.
 5. Create a `config_docker.json` file in the root directory. You can use the `config_docker_example.json` file as a template. Define the parameters as described in the "Config File Setup" section below.
 6. Run the docker-compose file by running `docker-compose up`.
-7. The ETL process will start automatically, and repeat every 24 hours.
+7. The ETL process will start automatically, and repeat every 6 hours.
 8. To stop the ETL process, run `docker-compose down`.
 
 ### Python Environment Setup

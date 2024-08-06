@@ -1,3 +1,15 @@
+import sys
+import os
+
+# Get the current script directory
+current_script_directory = os.path.dirname(os.path.realpath(__file__))
+
+# Get the root directory of your repository
+root_directory = os.path.abspath(os.path.join(current_script_directory, os.pardir, os.pardir))
+
+# Add the root directory to sys.path
+sys.path.append(root_directory)
+
 from PyUtilities.setupFunctions import read_config_file
 
 from redcap import Project
@@ -32,7 +44,7 @@ def extract_data():
     try:
       with open(CONFIG['extraction_path'], 'r') as file:
         # Logic to read data from CSV using pandas
-        data = pd.read_csv(CONFIG['extraction_path'])
+        data = pd.read_csv(CONFIG['extraction_path'],dtype=str)
     except FileNotFoundError:
       workflow_logger.error(f"File not found at the specified extraction path: {CONFIG['extraction_path']}")
       exit()
@@ -88,3 +100,12 @@ def extract_redcap_data():
   df.to_csv(CONFIG['extraction_path'], index=False)
   workflow_logger.info("Data saved to file: %s", CONFIG['extraction_path'])
   return df
+
+# Extract program
+if __name__ == "__main__":
+    """
+    @TODO: Add docstring
+    """
+    extracted_data = extract_data()
+    print(extracted_data)
+    workflow_logger.info("Data extracted successfully.")
