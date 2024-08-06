@@ -44,7 +44,7 @@ def extract_data():
     try:
       with open(CONFIG['extraction_path'], 'r') as file:
         # Logic to read data from CSV using pandas
-        data = pd.read_csv(CONFIG['extraction_path'],dtype=str)
+        data = pd.read_csv(CONFIG['extraction_path'],dtype=str, index_col='index', encoding='utf-8', na_filter=False)
     except FileNotFoundError:
       workflow_logger.error(f"File not found at the specified extraction path: {CONFIG['extraction_path']}")
       exit()
@@ -97,7 +97,7 @@ def extract_redcap_data():
   workflow_logger.debug("Data acquired from REDCap API")
   # Save data to a file using pandas
   df = pd.DataFrame(data)
-  df.to_csv(CONFIG['extraction_path'], index=False)
+  df.to_csv(CONFIG['extraction_path'],  index=True, index_label='index', encoding='utf-8')
   workflow_logger.info("Data saved to file: %s", CONFIG['extraction_path'])
   return df
 
